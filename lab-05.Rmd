@@ -20,7 +20,7 @@ lq <- laquinta
 
 ### Exercise 1
 
-```{r Denny's-Alaska}
+```{r Dennys-Alaska}
 dn_ak <- dn %>%
   filter(state == "AK")
 nrow(dn_ak)
