@@ -1,3 +1,3 @@
 # lab-05-wrangle-sp-data
 
-template materials for lab
+Conor Lacey's Lab 5 for DS4P
