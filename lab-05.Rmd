@@ -26,18 +26,25 @@ dn_ak <- dn %>%
 nrow(dn_ak)
 ```
 
-Wow. There are only 3 Denny's in Alaksa.
+Wow. There are only 3 Denny's locations in Alasksa.
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+```{r La_Quinta-Alaska}
+lq_ak <- lq %>%
+  filter(state == "AK")
+nrow(lq_ak)
+```
+
+Alaska is not very popular. There are only 2 La Quintas in Alaska.
 
 ### Exercise 3
 
-...
+Now we need to join all Denny's locations with all La Quinta locations in Alaska. From the looks of things we will need to calculate 6 distances. 
+```{r join-lq_ak-dn_ak}
+dn_lq_ak <- full_join(dn_ak, lq_ak, by = "state")
+dn_lq_ak
+```
 
 ### Exercise 4
 
