@@ -61,9 +61,11 @@ We can use the mutate function to add a new variable to a data frame while keepi
 
 ```{r dn_lq_ak-distances}
 source("haversine.R")
-dn_lq_ak <- dn_lq_ak %>% mutate(distances = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
+dn_lq_ak <- dn_lq_ak %>% mutate(distance = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
                                                       dn_lq_ak$longitude.y,dn_lq_ak$latitude.y))
-dn_lq_ak["distances"]
+dn_lq_ak["distance"]
 ```
 
-Add exercise headings as needed.
+### Exercise 7
+
+
