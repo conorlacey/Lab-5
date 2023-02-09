@@ -8,6 +8,8 @@ Conor Lacey
 ``` r
 suppressWarnings(library(tidyverse))
 library(dsbox) 
+library(ggplot2)
+library(psych)
 ```
 
 ``` r
@@ -116,3 +118,29 @@ dn_lq_ak_mindist
     ## 1 1929 Airport Way    5.20
     ## 2 2900 Denali         2.04
     ## 3 3850 Debarr Road    6.00
+
+### Exercise 8
+
+``` r
+dn_lq_ak_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#7BAFD4", color = "darkblue", binwidth =3) +
+  labs(title = "Denny's Distance to Closest La Quinta in Alaska Distribution",
+       x = "Distance (km)",
+       y = "Number of Locations")
+```
+
+![](lab-05_files/figure-gfm/dn_lq_ak_mindist-histogram-1.png)<!-- -->
+
+``` r
+describe(dn_lq_ak_mindist$closest)
+```
+
+    ##    vars n mean  sd median trimmed  mad  min max range  skew kurtosis   se
+    ## X1    1 3 4.41 2.1    5.2    4.41 1.19 2.04   6  3.96 -0.32    -2.33 1.21
+
+There is a mean distance of 4.41km from Denny’s to the closest La Quinta
+location and a variance of 4.41km between the 3 Denny’s locations.
+However, with just three data points this is not a lot of information to
+go off of.
+
+### Exercise 9

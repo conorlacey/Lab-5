@@ -10,6 +10,8 @@ output: github_document
 ```{r load-packages, message = FALSE}
 suppressWarnings(library(tidyverse))
 library(dsbox) 
+library(ggplot2)
+library(psych)
 ```
 
 ```{r load-data, message = FALSE}
@@ -75,5 +77,20 @@ dn_lq_ak_mindist <- dn_lq_ak %>%
 
 dn_lq_ak_mindist
 ```
+
+### Exercise 8
+
+```{r dn_lq_ak_mindist-histogram}
+dn_lq_ak_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#7BAFD4", color = "darkblue", binwidth =3) +
+  labs(title = "Denny's Distance to Closest La Quinta in Alaska Distribution",
+       x = "Distance (km)",
+       y = "Number of Locations")
+describe(dn_lq_ak_mindist$closest)
+```
+
+There is a mean distance of 4.41km from Denny's to the closest La Quinta location and a variance of 4.41km between the 3 Denny's locations. However, with just three data points this is not a lot of information to go off of. 
+
+### Exercise 9 
 
 
