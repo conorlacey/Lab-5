@@ -68,4 +68,12 @@ dn_lq_ak["distance"]
 
 ### Exercise 7
 
+```{r dn_lq_ak-mindist}
+dn_lq_ak_mindist <- dn_lq_ak %>%
+  group_by(address.x) %>%
+  summarize(closest = min(distance))
+
+dn_lq_ak_mindist
+```
+
 
