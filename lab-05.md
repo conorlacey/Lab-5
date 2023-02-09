@@ -85,19 +85,19 @@ while keeping the existing variables.
 
 ``` r
 source("haversine.R")
-dn_lq_ak <- dn_lq_ak %>% mutate(distances = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
+dn_lq_ak <- dn_lq_ak %>% mutate(distance = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
                                                       dn_lq_ak$longitude.y,dn_lq_ak$latitude.y))
-dn_lq_ak["distances"]
+dn_lq_ak["distance"]
 ```
 
     ## # A tibble: 6 × 1
-    ##   distances
-    ##       <dbl>
-    ## 1      2.04
-    ## 2    416.  
-    ## 3      6.00
-    ## 4    414.  
-    ## 5    420.  
-    ## 6      5.20
+    ##   distance
+    ##      <dbl>
+    ## 1     2.04
+    ## 2   416.  
+    ## 3     6.00
+    ## 4   414.  
+    ## 5   420.  
+    ## 6     5.20
 
-Add exercise headings as needed.
+### Exercise 7
