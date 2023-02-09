@@ -65,14 +65,39 @@ dn_lq_ak
 
 ### Exercise 4
 
-…
+There are 6 observations in the dn_lq_ak data set. The names of the
+variables are as follows:
+
+``` r
+colnames(dn_lq_ak)
+```
+
+    ##  [1] "address.x"   "city.x"      "state"       "zip.x"       "longitude.x"
+    ##  [6] "latitude.x"  "address.y"   "city.y"      "zip.y"       "longitude.y"
+    ## [11] "latitude.y"
 
 ### Exercise 5
 
-…
+We can use the mutate function to add a new variable to a data frame
+while keeping the existing variables.
 
 ### Exercise 6
 
-…
+``` r
+source("haversine.R")
+dn_lq_ak <- dn_lq_ak %>% mutate(distances = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
+                                                      dn_lq_ak$longitude.y,dn_lq_ak$latitude.y))
+dn_lq_ak["distances"]
+```
+
+    ## # A tibble: 6 × 1
+    ##   distances
+    ##       <dbl>
+    ## 1      2.04
+    ## 2    416.  
+    ## 3      6.00
+    ## 4    414.  
+    ## 5    420.  
+    ## 6      5.20
 
 Add exercise headings as needed.
