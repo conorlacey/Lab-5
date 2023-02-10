@@ -10,6 +10,7 @@ suppressWarnings(library(tidyverse))
 library(dsbox) 
 library(ggplot2)
 library(psych)
+source("haversine.R")
 ```
 
 ``` r
@@ -86,7 +87,6 @@ while keeping the existing variables.
 ### Exercise 6
 
 ``` r
-source("haversine.R")
 dn_lq_ak <- dn_lq_ak %>% mutate(distance = haversine(dn_lq_ak$longitude.x,dn_lq_ak$latitude.x,
                                                       dn_lq_ak$longitude.y,dn_lq_ak$latitude.y))
 dn_lq_ak["distance"]
@@ -124,7 +124,7 @@ dn_lq_ak_mindist
 ``` r
 dn_lq_ak_mindist %>% ggplot(aes(x = closest)) +
   geom_histogram(fill = "#115740", color = "#ffc72c", binwidth = 3) +
-  labs(title = "Denny's Distance to Closest La Quinta in Alaska Distribution",
+  labs(title = "Denny's Distance to Closest La Quinta in Alaska",
        x = "Distance (km)",
        y = "Number of Denny's Locations")
 ```
@@ -141,6 +141,51 @@ describe(dn_lq_ak_mindist$closest)
 There is a mean distance of 4.41km from Denny’s to the closest La Quinta
 location and a variance of 4.41km. However, with just three data points
 this is not a lot of information to go off of.
+
+### Exercise 9
+
+``` r
+#Create Texas data
+lq_nc <- lq %>%
+  filter(state == "NC")
+
+dn_nc <- dn %>%
+  filter(state == "NC")
+
+#join datasets
+dn_lq_nc <- full_join(dn_nc, lq_nc, by = "state")
+
+#add distance variable
+dn_lq_nc <- dn_lq_nc %>% mutate(distance = haversine(dn_lq_nc$longitude.x,dn_lq_nc$latitude.x,
+                                                      dn_lq_nc$longitude.y,dn_lq_nc$latitude.y))
+#minimum distance
+dn_lq_nc_mindist <- dn_lq_nc %>%
+  group_by(address.x) %>%
+  summarize(closest = min(distance))
+
+#plots
+dn_lq_nc_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#4B9CD3", color = "#151515", binwidth = 10) +
+  labs(title = "Denny's Distance to Closest La Quinta in North Carolina",
+       x = "Distance (km)",
+       y = "Number of Denny's Locations")
+```
+
+![](lab-05_files/figure-gfm/North_Carolina-1.png)<!-- -->
+
+``` r
+#describe data
+describe(dn_lq_nc_mindist$closest)
+```
+
+    ##    vars  n  mean    sd median trimmed   mad  min    max  range skew kurtosis
+    ## X1    1 28 65.44 53.42  53.46   60.72 51.06 1.78 187.94 186.16 0.81    -0.35
+    ##      se
+    ## X1 10.1
+
+For North Carolina, there is a mean distance of 65.44km from Denny’s to
+the closest La Quinta location and a variance of 2853.7km (That’s pretty
+big!). There is a bit of a positive skew in this dataset however.
 
 ### Exercise 10
 
@@ -166,7 +211,7 @@ dn_lq_tx_mindist <- dn_lq_tx %>%
 #plots
 dn_lq_tx_mindist %>% ggplot(aes(x = closest)) +
   geom_histogram(fill = "#BF5700", color = "#333F48", binwidth = 1) +
-  labs(title = "Denny's Distance to Closest La Quinta in Texas Distribution",
+  labs(title = "Denny's Distance to Closest La Quinta in Texas",
        x = "Distance (km)",
        y = "Number of Denny's Locations")
 ```
@@ -183,4 +228,6 @@ describe(dn_lq_tx_mindist$closest)
 
 For Texas, there is a mean distance of 5.79km from Denny’s to the
 closest La Quinta location and a variance of 78km. There is a large
-positive skew in this dataset.
+positive skew in this dataset however. It appears the majority of
+Denny’s locations in Texas are less than 10km away from the nearest La
+Quinta.
