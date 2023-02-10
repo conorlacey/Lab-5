@@ -231,3 +231,49 @@ closest La Quinta location and a variance of 78km. There is a large
 positive skew in this dataset however. It appears the majority of
 Denny’s locations in Texas are less than 10km away from the nearest La
 Quinta.
+
+### Exercise 11
+
+``` r
+lq_ca <- lq %>%
+  filter(state == "CA")
+
+dn_ca <- dn %>%
+  filter(state == "CA")
+
+#join datasets
+dn_lq_ca <- full_join(dn_ca, lq_ca, by = "state")
+
+#add distance variable
+dn_lq_ca <- dn_lq_ca %>% mutate(distance = haversine(dn_lq_ca$longitude.x,dn_lq_ca$latitude.x,
+                                                      dn_lq_ca$longitude.y,dn_lq_ca$latitude.y))
+#minimum distance
+dn_lq_ca_mindist <- dn_lq_ca %>%
+  group_by(address.x) %>%
+  summarize(closest = min(distance))
+
+#plots
+dn_lq_ca_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#2D68C4", color = "#F2A900", binwidth = 3) +
+  labs(title = "Denny's Distance to Closest La Quinta in California",
+       x = "Distance (km)",
+       y = "Number of Denny's Locations")
+```
+
+![](lab-05_files/figure-gfm/california-1.png)<!-- -->
+
+``` r
+#describe data
+describe(dn_lq_ca_mindist$closest)
+```
+
+    ##    vars   n  mean    sd median trimmed   mad  min    max  range skew kurtosis
+    ## X1    1 403 22.08 33.05   11.9   14.65 10.77 0.02 253.46 253.45 3.55     15.5
+    ##      se
+    ## X1 1.65
+
+For California, there is a mean distance of 22.08km from Denny’s to the
+closest La Quinta location and a variance of 1092.25km (This is huge!).
+There is a large positive skew in this dataset however. It appears the
+majority of Denny’s locations in California are less than 50km away from
+the nearest La Quinta.
