@@ -82,15 +82,45 @@ dn_lq_ak_mindist
 
 ```{r dn_lq_ak_mindist-histogram}
 dn_lq_ak_mindist %>% ggplot(aes(x = closest)) +
-  geom_histogram(fill = "#7BAFD4", color = "darkblue", binwidth =3) +
+  geom_histogram(fill = "#115740", color = "#ffc72c", binwidth = 3) +
   labs(title = "Denny's Distance to Closest La Quinta in Alaska Distribution",
        x = "Distance (km)",
-       y = "Number of Locations")
+       y = "Number of Denny's Locations")
 describe(dn_lq_ak_mindist$closest)
 ```
 
-There is a mean distance of 4.41km from Denny's to the closest La Quinta location and a variance of 4.41km between the 3 Denny's locations. However, with just three data points this is not a lot of information to go off of. 
+There is a mean distance of 4.41km from Denny's to the closest La Quinta location and a variance of 4.41km. However, with just three data points this is not a lot of information to go off of. 
 
-### Exercise 9 
+### Exercise 10 
 
+```{r texas}
+#Create Texas data
+lq_tx <- lq %>%
+  filter(state == "TX")
 
+dn_tx <- dn %>%
+  filter(state == "TX")
+
+#join datasets
+dn_lq_tx <- full_join(dn_tx, lq_tx, by = "state")
+
+#add distance variable
+dn_lq_tx <- dn_lq_tx %>% mutate(distance = haversine(dn_lq_tx$longitude.x,dn_lq_tx$latitude.x,
+                                                      dn_lq_tx$longitude.y,dn_lq_tx$latitude.y))
+#minimum distance
+dn_lq_tx_mindist <- dn_lq_tx %>%
+  group_by(address.x) %>%
+  summarize(closest = min(distance))
+
+#plots
+dn_lq_tx_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#BF5700", color = "#333F48", binwidth = 1) +
+  labs(title = "Denny's Distance to Closest La Quinta in Texas Distribution",
+       x = "Distance (km)",
+       y = "Number of Denny's Locations")
+
+#describe data
+describe(dn_lq_tx_mindist$closest)
+```
+
+For Texas, there is a mean distance of 5.79km from Denny's to the closest La Quinta location and a variance of 78km. There is a large positive skew in this dataset. 

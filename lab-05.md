@@ -123,10 +123,10 @@ dn_lq_ak_mindist
 
 ``` r
 dn_lq_ak_mindist %>% ggplot(aes(x = closest)) +
-  geom_histogram(fill = "#7BAFD4", color = "darkblue", binwidth =3) +
+  geom_histogram(fill = "#115740", color = "#ffc72c", binwidth = 3) +
   labs(title = "Denny's Distance to Closest La Quinta in Alaska Distribution",
        x = "Distance (km)",
-       y = "Number of Locations")
+       y = "Number of Denny's Locations")
 ```
 
 ![](lab-05_files/figure-gfm/dn_lq_ak_mindist-histogram-1.png)<!-- -->
@@ -139,8 +139,48 @@ describe(dn_lq_ak_mindist$closest)
     ## X1    1 3 4.41 2.1    5.2    4.41 1.19 2.04   6  3.96 -0.32    -2.33 1.21
 
 There is a mean distance of 4.41km from Denny’s to the closest La Quinta
-location and a variance of 4.41km between the 3 Denny’s locations.
-However, with just three data points this is not a lot of information to
-go off of.
+location and a variance of 4.41km. However, with just three data points
+this is not a lot of information to go off of.
 
-### Exercise 9
+### Exercise 10
+
+``` r
+#Create Texas data
+lq_tx <- lq %>%
+  filter(state == "TX")
+
+dn_tx <- dn %>%
+  filter(state == "TX")
+
+#join datasets
+dn_lq_tx <- full_join(dn_tx, lq_tx, by = "state")
+
+#add distance variable
+dn_lq_tx <- dn_lq_tx %>% mutate(distance = haversine(dn_lq_tx$longitude.x,dn_lq_tx$latitude.x,
+                                                      dn_lq_tx$longitude.y,dn_lq_tx$latitude.y))
+#minimum distance
+dn_lq_tx_mindist <- dn_lq_tx %>%
+  group_by(address.x) %>%
+  summarize(closest = min(distance))
+
+#plots
+dn_lq_tx_mindist %>% ggplot(aes(x = closest)) +
+  geom_histogram(fill = "#BF5700", color = "#333F48", binwidth = 1) +
+  labs(title = "Denny's Distance to Closest La Quinta in Texas Distribution",
+       x = "Distance (km)",
+       y = "Number of Denny's Locations")
+```
+
+![](lab-05_files/figure-gfm/texas-1.png)<!-- -->
+
+``` r
+#describe data
+describe(dn_lq_tx_mindist$closest)
+```
+
+    ##    vars   n mean   sd median trimmed  mad  min   max range skew kurtosis   se
+    ## X1    1 200 5.79 8.83   3.37    3.88 4.06 0.02 60.58 60.57 3.37    13.53 0.62
+
+For Texas, there is a mean distance of 5.79km from Denny’s to the
+closest La Quinta location and a variance of 78km. There is a large
+positive skew in this dataset.
