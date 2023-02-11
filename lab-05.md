@@ -209,11 +209,12 @@ dn_lq_tx_mindist <- dn_lq_tx %>%
   summarize(closest = min(distance))
 
 #plots
-dn_lq_tx_mindist %>% ggplot(aes(x = closest)) +
+tx_hist <- dn_lq_tx_mindist %>% ggplot(aes(x = closest)) +
   geom_histogram(fill = "#BF5700", color = "#333F48", binwidth = 1) +
   labs(title = "Denny's Distance to Closest La Quinta in Texas",
        x = "Distance (km)",
        y = "Number of Denny's Locations")
+tx_hist
 ```
 
 ![](lab-05_files/figure-gfm/texas-1.png)<!-- -->
@@ -277,3 +278,13 @@ closest La Quinta location and a variance of 1092.25km (This is huge!).
 There is a large positive skew in this dataset however. It appears the
 majority of Denny’s locations in California are less than 50km away from
 the nearest La Quinta.
+
+### Exercise 12
+
+Among all the states I’ve analyzed, I believe Hedberg’s joke most likely
+holds in Alaska.
+
+For Alaska, if we look at the distribution we see all of the La Quinta’s
+are less than 6km from the nearest Denny’s. So, despite there being only
+3 La Quinta’s in Alaska, they are all closer to a Denny’s than the
+majority of La Quinta’s in the other states.
